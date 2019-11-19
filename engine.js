@@ -43,7 +43,8 @@ module.exports = function(options) {
   var length = longest(Object.keys(types)).length + 1;
   var choices = map(types, function(type, key) {
     return {
-      name: rightPad(key + ':', length) + ' ' + type.description,
+      name:
+        type.emoji + ' ' + rightPad(key + ':', length) + ' ' + type.description,
       value: key
     };
   });
@@ -138,10 +139,10 @@ module.exports = function(options) {
         };
 
         // parentheses are only needed when a scope is present
-        var scope = answers.issue ? ' [' + answers.issue + '] ' : '';
+        var scope = answers.issue ? '[' + answers.issue + '] ' : '';
 
         // Hard limit this line in the validate
-        var head = types[answers.type].emoji + scope + ': ' + answers.subject;
+        var head = types[answers.type].emoji + scope + answers.subject;
 
         // Wrap these lines at options.maxLineWidth characters
         var body = answers.body ? wrap(answers.body, wrapOptions) : false;

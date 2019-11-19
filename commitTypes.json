@@ -2,43 +2,43 @@
   "types": {
     "New feature": {
       "description": "A new feature",
-      "emoji": ":sparkles:"
+      "emoji": "✨"
     },
     "Bugfix": {
       "description": "A bug fix",
-      "emoji": ":bug:"
+      "emoji": "🐛"
     },
     "Refactor code": {
       "description": "An improvement to a current feature",
-      "emoji": ":hammer:"
+      "emoji": "🔨"
     },
     "Styles": {
       "description": "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)",
-      "emoji": ":lipstick:"
+      "emoji": "💄"
     },
     "Configuration files": {
       "description": "Changes a configuration file or code",
-      "emoji": ":wrench:"
+      "emoji": "🔧"
     },
     "Tests": {
       "description": "Adding missing tests or correcting existing tests",
-      "emoji": ":rotating_light:"
+      "emoji": "🚨"
     },
     "Removing code/files": {
       "description": "Removes codes or files",
-      "emoji": ":fire:"
+      "emoji": "🔥"
     },
     "Reverting changes": {
       "description": "Reverts a previous commit",
-      "emoji": ":rewind:"
+      "emoji": "⏪"
     },
     "Documentation": {
       "description": "Documentation only changes",
-      "title": "Documentation"
+      "emoji": "📚"
     },
     "Package.json in JS": {
       "description": "Changes package(s) in package.json",
-      "emoji": ":package:"
+      "emoji": "📦"
     }
   }
 }
