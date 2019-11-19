@@ -1,7 +1,7 @@
 'format cjs';
 
 var engine = require('./engine');
-var conventionalCommitTypes = require('conventional-commit-types');
+var conventionalCommitTypes = require('./commitTypes.json');
 var configLoader = require('commitizen').configLoader;
 
 var config = configLoader.load();

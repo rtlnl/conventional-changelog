@@ -24,9 +24,9 @@ var maxSummaryLength = function(options, answers) {
 
 var filterSubject = function(subject) {
   subject = subject.trim();
-  if (subject.charAt(0).toLowerCase() !== subject.charAt(0)) {
+  if (subject.charAt(0).toUpperCase() !== subject.charAt(0)) {
     subject =
-      subject.charAt(0).toLowerCase() + subject.slice(1, subject.length);
+      subject.charAt(0).toUpperCase() + subject.slice(1, subject.length);
   }
   while (subject.endsWith('.')) {
     subject = subject.slice(0, subject.length - 1);
@@ -78,12 +78,12 @@ module.exports = function(options) {
         },
         {
           type: 'input',
-          name: 'scope',
+          name: 'issue',
           message:
-            'What is the scope of this change (e.g. component or file name): (press enter to skip)',
-          default: options.defaultScope,
+            'What is the issue reference of this change (e.g. RNG-1234 or MSP-1234): (press enter to skip)',
+          default: '',
           filter: function(value) {
-            return value.trim().toLowerCase();
+            return value.trim().toUpperCase();
           }
         },
         {
@@ -127,64 +127,6 @@ module.exports = function(options) {
           message:
             'Provide a longer description of the change: (press enter to skip)\n',
           default: options.defaultBody
-        },
-        {
-          type: 'confirm',
-          name: 'isBreaking',
-          message: 'Are there any breaking changes?',
-          default: false
-        },
-        {
-          type: 'input',
-          name: 'breakingBody',
-          default: '-',
-          message:
-            'A BREAKING CHANGE commit requires a body. Please enter a longer description of the commit itself:\n',
-          when: function(answers) {
-            return answers.isBreaking && !answers.body;
-          },
-          validate: function(breakingBody, answers) {
-            return (
-              breakingBody.trim().length > 0 ||
-              'Body is required for BREAKING CHANGE'
-            );
-          }
-        },
-        {
-          type: 'input',
-          name: 'breaking',
-          message: 'Describe the breaking changes:\n',
-          when: function(answers) {
-            return answers.isBreaking;
-          }
-        },
-
-        {
-          type: 'confirm',
-          name: 'isIssueAffected',
-          message: 'Does this change affect any open issues?',
-          default: options.defaultIssues ? true : false
-        },
-        {
-          type: 'input',
-          name: 'issuesBody',
-          default: '-',
-          message:
-            'If issues are closed, the commit requires a body. Please enter a longer description of the commit itself:\n',
-          when: function(answers) {
-            return (
-              answers.isIssueAffected && !answers.body && !answers.breakingBody
-            );
-          }
-        },
-        {
-          type: 'input',
-          name: 'issues',
-          message: 'Add issue references (e.g. "fix #123", "re #123".):\n',
-          when: function(answers) {
-            return answers.isIssueAffected;
-          },
-          default: options.defaultIssues ? options.defaultIssues : undefined
         }
       ]).then(function(answers) {
         var wrapOptions = {
@@ -196,24 +138,15 @@ module.exports = function(options) {
         };
 
         // parentheses are only needed when a scope is present
-        var scope = answers.scope ? '(' + answers.scope + ')' : '';
+        var scope = answers.issue ? ' [' + answers.issue + '] ' : '';
 
         // Hard limit this line in the validate
-        var head = answers.type + scope + ': ' + answers.subject;
+        var head = types[answers.type].emoji + scope + ': ' + answers.subject;
 
         // Wrap these lines at options.maxLineWidth characters
         var body = answers.body ? wrap(answers.body, wrapOptions) : false;
 
-        // Apply breaking change prefix, removing it if already present
-        var breaking = answers.breaking ? answers.breaking.trim() : '';
-        breaking = breaking
-          ? 'BREAKING CHANGE: ' + breaking.replace(/^BREAKING CHANGE: /, '')
-          : '';
-        breaking = breaking ? wrap(breaking, wrapOptions) : false;
-
-        var issues = answers.issues ? wrap(answers.issues, wrapOptions) : false;
-
-        commit(filter([head, body, breaking, issues]).join('\n\n'));
+        commit(filter([head, body]).join('\n\n'));
       });
     }
   };
