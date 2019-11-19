@@ -139,7 +139,7 @@ module.exports = function(options) {
         };
 
         // parentheses are only needed when a scope is present
-        var scope = answers.issue ? '[' + answers.issue + '] ' : '';
+        var scope = answers.issue ? ' [' + answers.issue + '] ' : '';
 
         // Hard limit this line in the validate
         var head = types[answers.type].emoji + scope + answers.subject;
